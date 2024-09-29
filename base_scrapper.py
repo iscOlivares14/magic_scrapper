@@ -1,3 +1,5 @@
+__author__ = "Victor Olivares"
+
 import random
 import time
 
