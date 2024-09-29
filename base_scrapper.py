@@ -26,6 +26,9 @@ class SelemiunScrapper():
             self._driver.implicitly_wait(self._implicitly_wait)
         print("Driver initialized...")
 
+    def start(self):
+        self._driver.get(self._pivot_url)
+
     def scroll_and_wait(self, dom_element, delta_x=0, delta_y=0, delay_seconds=None):
         scroll_origin = ScrollOrigin.from_element(dom_element)
         ActionChains(self._driver).scroll_from_origin(scroll_origin, delta_x, delta_y).perform()

@@ -25,7 +25,7 @@ class AliScrapper(SelemiunScrapper):
         super().__init__(pivot_url, implicitly_wait)
 
     def navigate(self) -> None:
-        self._driver.get(self._pivot_url)
+        self.start()
 
         # take advantage of the implicit wait to pass the page fully_loaded to make the soup
         div_product_summary = self._driver.find_element(By.CSS_SELECTOR, "div.pdp-info")
