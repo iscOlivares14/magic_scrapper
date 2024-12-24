@@ -1,25 +1,27 @@
 __author__ = "Victor Olivares"
 
 import argparse
+import random
 import sys
 
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
-from selenium.webdriver.common.by import By
-
-from base_scrapper import SelemiunScrapper
+from base_scrapper import SeleniumScrapper
 
 from utils import download_image
 
 OUTPUT_DIR = "images/output"
 
-class AliScrapper(SelemiunScrapper):
+class AliScrapper(SeleniumScrapper):
     """
     Goal of this is to get the images located into the description 
     but needs to scroll for reaching that section of the page.
     Then html is parsed using Beautifulsoup.
     """
+
+    # delay times for this scrapper
+    SCROLL_DELAY_TIMES = [1,2,3]
+    
 
     def __init__(self, pivot_url, implicitly_wait=0) -> None:
         super().__init__(pivot_url, implicitly_wait)
@@ -27,14 +29,20 @@ class AliScrapper(SelemiunScrapper):
     def navigate(self) -> None:
         self.start()
 
-        # take advantage of the implicit wait to pass the page fully_loaded to make the soup
-        div_product_summary = self._driver.find_element(By.CSS_SELECTOR, "div.pdp-info")
-        self.scroll_and_wait(div_product_summary, delta_y=600)
-        div_product_review = self._driver.find_element(By.CSS_SELECTOR, "div#nav-review")
-        self.scroll_and_wait(div_product_review, delta_y=600)
-        div_product_specs = self._driver.find_element(By.CSS_SELECTOR, "div#nav-specification")
-        self.scroll_and_wait(div_product_specs, delta_y=600)
+        div_product_summary = self.get_element_by_xpath("//div[@class='pdp-info']")
+        self.scroll_and_wait(
+            div_product_summary, delta_y=600, delay_seconds=random.choice(self.SCROLL_DELAY_TIMES)
+        )
+        div_product_review = self.get_element_by_xpath("//div[@id='nav-review']")
+        self.scroll_and_wait(
+            div_product_review, delta_y=600, delay_seconds=random.choice(self.SCROLL_DELAY_TIMES)
+        )
+        div_product_specs = self.get_element_by_xpath("//div[@id='nav-specification']")
+        self.scroll_and_wait(
+            div_product_specs, delta_y=600, delay_seconds=random.choice(self.SCROLL_DELAY_TIMES)
+        )
 
+        # once all the DOM required is loaded we can close the driver and use only the html
         soup = BeautifulSoup(self._driver.page_source, 'lxml')
 
         self.quit()

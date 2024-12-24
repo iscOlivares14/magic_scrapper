@@ -3,6 +3,8 @@
 This repo uses Selenium and beautifulsoup for getting data
 or media content from some pages.
 
+## Running the scrapper in a virtualenv on your systemfile
+
 **Note** You should have a [virtualenv](https://virtualenv.pypa.io/en/latest/) where to install the requirements.
 
 ```bash
@@ -29,12 +31,13 @@ options:
 
 Then pass the url using the `-u` flag.
 
-
 ```bash
 (venv) python3 aliexpress.py -u https://es.aliexpress.com/item/1005006895003798.html?spm=a2g0o.order_list.order_list_main.40.347f194dlOF89p&gatewayAdapt=glo2esp
 ```
 
 **NOTE** for simplicity the output is saved in `images/output` directory.
+
+## Running the scrapper in a container
 
 ## Roadmap
 
